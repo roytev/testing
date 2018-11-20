@@ -201,3 +201,12 @@ filegroup(
 )
 """,
 )
+
+# Used for flightdeck e2e image
+docker_pull(
+    name = "flightdeck-e2e",
+    # master-6320
+    digest = "sha256:c91535714b0aa99b36222a5f2f6785e338e57f0786c8ddac2fe3b25938c3fc34",
+    registry = "gcr.io",
+    repository = "jetstack-workshops/portal-e2e",
+)

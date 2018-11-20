@@ -24,6 +24,7 @@ docker_tag="v${build_date}-${git_commit}"
 cat <<EOF
 STABLE_PROW_DOCKER_REPO eu.gcr.io/jetstack-build-infra
 STABLE_IMAGE_DOCKER_REPO eu.gcr.io/jetstack-build-infra-images
+STABLE_IMAGE_DOCKER_REPO_INTERNAL eu.gcr.io/jetstack-build-infra-internal
 STABLE_IMAGE_DOCKER_TAG ${docker_tag}
 STABLE_PROW_CONTEXT build-infra
 STABLE_BUILD_CONTEXT libvirt

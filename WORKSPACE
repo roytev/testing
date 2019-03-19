@@ -145,9 +145,9 @@ container_dockerfile(
     name = "bazelbuild",
     build_matrix = {
         "BAZEL_VERSION": [
-            "0.16.1",
             "0.18.0",
             "0.21.0",
+            "0.22.0",
         ],
     },
     dockerfile = "//images/bazelbuild:Dockerfile",
@@ -204,7 +204,7 @@ container_dockerfile(
     dockerfile = "//legacy/images/tarmak/sphinx-docs:Dockerfile",
 )
 
-# Dependencies used for the cert-manager e2e image
+# Dependencies used by test images
 http_file(
    name = "golang",
    urls = ["https://dl.google.com/go/go1.11.linux-amd64.tar.gz"],
@@ -212,23 +212,8 @@ http_file(
 )
 
 http_file(
-    name = "dep_linux",
-    executable = 1,
-    urls = ["https://github.com/golang/dep/releases/download/v0.5.0/dep-linux-amd64"],
-    sha256 = "287b08291e14f1fae8ba44374b26a2b12eb941af3497ed0ca649253e21ba2f83"
+   name = "golang-1.12",
+   urls = ["https://dl.google.com/go/go1.12.1.linux-amd64.tar.gz"],
+   sha256 = "2a3fdabf665496a0db5f41ec6af7a9b15a49fbe71a85a50ca38b1f13a103aeec",
 )
 
-http_archive(
-    name = "helm_linux",
-    sha256 = "0fa2ed4983b1e4a3f90f776d08b88b0c73fd83f305b5b634175cb15e61342ffe",
-    urls = ["https://storage.googleapis.com/kubernetes-helm/helm-v2.10.0-linux-amd64.tar.gz"],
-    build_file_content = """
-filegroup(
-    name = "helm",
-    srcs = [
-        "linux-amd64/helm",
-    ],
-    visibility = ["//visibility:public"],
-)
-""",
-)

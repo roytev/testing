@@ -1,0 +1,45 @@
+load("@io_bazel_rules_docker//container:container.bzl", "container_image", "container_bundle")
+load("@io_bazel_rules_docker//contrib:push-all.bzl", "docker_push")
+load("@io_bazel_rules_go//go:def.bzl", "go_binary")
+
+filegroup(
+    name = "package-srcs",
+    srcs = glob(["**"]),
+    tags = ["automanaged"],
+    visibility = ["//visibility:private"],
+)
+
+filegroup(
+    name = "all-srcs",
+    srcs = [":package-srcs"],
+    tags = ["automanaged"],
+    visibility = ["//visibility:public"],
+)
+
+container_image(
+    name = "image",
+    # we reuse the bazelbuild base image in order to enable dind
+    base = "//images/bazelbuild:image-0.22.0",
+    env = {
+        "PATH": "/usr/local/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+    },
+    symlinks = {
+        "/usr/local/go": "/go",
+    },
+    tars = [
+        "@golang-1.12//file",
+    ],
+)
+
+container_bundle(
+    name = "golang",
+    images = {
+        "{STABLE_IMAGE_DOCKER_REPO}/golang-dind:{STABLE_IMAGE_DOCKER_TAG}-1.12.1": ":image",
+    },
+    stamp = True,
+)
+
+docker_push(
+    name = "push",
+    bundle = ":golang",
+)
